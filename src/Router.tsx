@@ -8,8 +8,21 @@ export function Router(_: any, children: any) {
     <RouterContext.Provider
       value={{
         location,
-        navigateTo(newLocation) {
+        push(newLocation) {
           location(newLocation)
+          window.history.pushState({}, "", newLocation)
+        },
+        replace(newLocation) {
+          location(newLocation)
+          window.history.replaceState({}, "", newLocation)
+        },
+        back() {
+          window.history.back()
+          location(window.location.pathname)
+        },
+        forward() {
+          window.history.forward()
+          location(window.location.pathname)
         },
       }}
     >
