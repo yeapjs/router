@@ -5,6 +5,7 @@ import { h } from "yeap/web"
 import { RouterContext } from "./context"
 
 interface RouteProps<T> {
+  once?: boolean
   path: string
   component: Component<T>
 }
@@ -12,6 +13,7 @@ interface RouteProps<T> {
 export function Route<T>({
   path,
   component,
+  once,
   ...props
 }: ComponentProps<T & RouteProps<T>>) {
   const history = useContext(RouterContext)
@@ -22,6 +24,7 @@ export function Route<T>({
     )
 
   const show = createComputed(() => {
+    if (once && history.alreadyCalled(true)) return false
     return history.location() === path
   }, history.location)
 

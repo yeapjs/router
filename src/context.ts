@@ -2,6 +2,7 @@ import { createContext, Reactor } from "yeap/app";
 
 interface RouterContextInteface {
   location: Reactor<string>
+  alreadyCalled: Reactor<boolean>
   push(newLocation: string): void
   replace(newLocation: string): void
   back(): void
