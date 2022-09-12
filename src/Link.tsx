@@ -7,21 +7,33 @@ interface LinkProps extends JSX.ReactivableHTMLAttributes<HTMLAnchorElement> {
   back?: boolean
   forward?: boolean
   replace?: boolean
+  native?: boolean
   to?: string
   ref: Reactor<HTMLAnchorElement>
 }
 
 export function Link(
-  { back, forward, replace = false, to = "/", ref, ...rest }: LinkProps,
+  {
+    back,
+    forward,
+    native = false,
+    replace = false,
+    to = "/",
+    ref,
+    ...rest
+  }: LinkProps,
   children: any
 ) {
   const history = useContext(RouterContext)!
 
-  function handleClick(e: any) {
-    if (rest["onClick:prevent"]) {
-      if (typeof rest["onClick:prevent"] === "function")
-        rest["onClick:prevent"](e)
-      else rest["onClick:prevent"][0](rest["onClick:prevent"].slice(1))
+  function handleClick(e: MouseEvent & { currentTarget: HTMLAnchorElement }) {
+    if (native) return
+
+    e.preventDefault()
+
+    if (rest.onClick) {
+      if (typeof rest.onClick === "function") rest.onClick(e)
+      else rest.onClick[0](rest.onClick.slice(1))
     }
     if (back) history.back()
     else if (forward) history.forward()
@@ -33,7 +45,7 @@ export function Link(
       {...rest}
       ref={ref}
       href={to}
-      onClick:prevent={handleClick}
+      onClick={handleClick}
       data-active={history.location.compute((v) => v === to)}
     >
       {children}
