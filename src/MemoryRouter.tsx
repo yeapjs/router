@@ -13,10 +13,17 @@ export function MemoryRouter(
   let history = [initialLocation]
   let i = 0
 
+  const called = createReactor(false)
+
+  location.subscribe(() => {
+    called(false)
+  })
+
   return (
     <RouterContext.Provider
       value={{
         location,
+        alreadyCalled: called,
         push(newLocation) {
           location(newLocation)
           history = [...history.slice(0, i + 1), newLocation]
