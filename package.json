@@ -24,7 +24,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yeapjs/yeap.git"
+    "url": "git+https://github.com/yeapjs/router.git"
   },
   "keywords": [
     "yeap",
@@ -34,10 +34,11 @@
   "author": "hanako-eo",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yeapjs/yeap/issues"
+    "url": "https://github.com/yeapjs/router/issues"
   },
-  "homepage": "https://github.com/yeapjs/yeap#readme",
+  "homepage": "https://github.com/yeapjs/router#readme",
   "devDependencies": {
+    "esbuild": "^0.15.7",
     "prettier": "^2.5.1",
     "tslib": "^2.3.1",
     "typescript": "^4.6.2",
