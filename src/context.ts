@@ -10,6 +10,7 @@ export interface HistoryGesture {
 interface RouterContextInteface extends HistoryGesture {
   location: Reactor<string>
   alreadyCalled: Reactor<boolean>
+  ids: Record<string, string>
 }
 
 interface RouteContextInteface {

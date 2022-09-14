@@ -14,6 +14,7 @@ export function Router(_: any, children: any) {
       value={{
         location,
         alreadyCalled: called,
+        ids: {},
         push(newLocation) {
           location(newLocation)
           window.history.pushState({}, "", newLocation)

@@ -3,12 +3,18 @@ import { h } from "yeap/web"
 
 import { RouterContext } from "./context"
 
+interface LinkTo {
+  id?: string
+  path?: string
+  params?: Record<string, string>
+}
+
 interface LinkProps extends JSX.ReactivableHTMLAttributes<HTMLAnchorElement> {
   back?: boolean
   forward?: boolean
   replace?: boolean
   native?: boolean
-  to?: string
+  to?: string | LinkTo
   ref: Reactor<HTMLAnchorElement>
 }
 
@@ -26,6 +32,17 @@ export function Link(
 ) {
   const history = useContext(RouterContext)!
 
+  let href = ""
+  if (typeof to === "string") href = to
+  else {
+    if (to.path) href = to.path
+    else if (to.id) href = history.ids[to.id]
+
+    if (to.params)
+      for (const key of Object.keys(to.params))
+        href = href.replace(`:${key}`, to.params[key])
+  }
+
   function handleClick(e: MouseEvent & { currentTarget: HTMLAnchorElement }) {
     if (native) return
 
@@ -37,16 +54,16 @@ export function Link(
     }
     if (back) history.back()
     else if (forward) history.forward()
-    else history[replace ? "replace" : "push"](to)
+    else history[replace ? "replace" : "push"](href)
   }
 
   return (
     <a
       {...rest}
       ref={ref}
-      href={to}
+      href={href}
       onClick={handleClick}
-      data-active={history.location.compute((v) => v === to)}
+      data-active={history.location.compute((v) => v === href)}
     >
       {children}
     </a>

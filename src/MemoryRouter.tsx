@@ -24,6 +24,7 @@ export function MemoryRouter(
       value={{
         location,
         alreadyCalled: called,
+        ids: {},
         push(newLocation) {
           location(newLocation)
           history = [...history.slice(0, i + 1), newLocation]
