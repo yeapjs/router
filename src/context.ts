@@ -1,12 +1,15 @@
 import { createContext, Reactor, ReadOnlyReactor } from "yeap/app";
 
-interface RouterContextInteface {
-  location: Reactor<string>
-  alreadyCalled: Reactor<boolean>
+export interface HistoryGesture {
   push(newLocation: string): void
   replace(newLocation: string): void
   back(): void
   forward(): void
+}
+
+interface RouterContextInteface extends HistoryGesture {
+  location: Reactor<string>
+  alreadyCalled: Reactor<boolean>
 }
 
 interface RouteContextInteface {
