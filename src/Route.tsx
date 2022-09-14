@@ -8,7 +8,7 @@ import {
 import { Dynamic } from "yeap/components"
 import { h } from "yeap/web"
 
-import { RouteContext, RouterContext } from "./context"
+import { GroupRoutesContext, RouteContext, RouterContext } from "./context"
 import { getParams, testRoute } from "./helpers"
 
 interface RouteProps<T> {
@@ -23,6 +23,7 @@ export function Route<T>({
   once,
   ...props
 }: ComponentProps<T & RouteProps<T>>) {
+  const { parentPath } = useContext(GroupRoutesContext)
   const history = useContext(RouterContext)
   const params = createReactor<Record<string, string>>({})
 
@@ -33,8 +34,8 @@ export function Route<T>({
 
   const show = createComputed(() => {
     if (once && history.alreadyCalled(true)) return false
-    if (testRoute(path, history.location())) {
-      params(getParams(path, history.location()))
+    if (testRoute(parentPath + path, history.location())) {
+      params(getParams(parentPath + path, history.location()))
 
       return true
     }

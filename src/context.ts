@@ -16,5 +16,10 @@ interface RouteContextInteface {
   params: ReadOnlyReactor<Record<string, string>>
 }
 
+interface GroupRoutesContextInteface {
+  parentPath: string
+}
+
+export const GroupRoutesContext = createContext<GroupRoutesContextInteface>({ parentPath: "/" })
 export const RouterContext = createContext<RouterContextInteface | null>(null)
 export const RouteContext = createContext<RouteContextInteface | null>(null)
