@@ -1,8 +1,15 @@
-import { Component, ComponentProps, createComputed, useContext } from "yeap/app"
+import {
+  Component,
+  ComponentProps,
+  createComputed,
+  createReactor,
+  useContext,
+} from "yeap/app"
 import { Dynamic } from "yeap/components"
 import { h } from "yeap/web"
 
-import { RouterContext } from "./context"
+import { RouteContext, RouterContext } from "./context"
+import { getParams, testRoute } from "./helpers"
 
 interface RouteProps<T> {
   once?: boolean
@@ -17,6 +24,7 @@ export function Route<T>({
   ...props
 }: ComponentProps<T & RouteProps<T>>) {
   const history = useContext(RouterContext)
+  const params = createReactor<Record<string, string>>({})
 
   if (history === null)
     throw new Error(
@@ -25,8 +33,16 @@ export function Route<T>({
 
   const show = createComputed(() => {
     if (once && history.alreadyCalled(true)) return false
-    return history.location() === path
+    if (testRoute(path, history.location())) {
+      params(getParams(path, history.location()))
+
+      return true
+    }
   }, history.location)
 
-  return <Dynamic component={component as any} {...props} when={show} />
+  return (
+    <RouteContext.Provider value={{ params: params.reader() }}>
+      <Dynamic component={component as any} {...props} when={show} />
+    </RouteContext.Provider>
+  )
 }

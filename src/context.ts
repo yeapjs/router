@@ -1,4 +1,4 @@
-import { createContext, Reactor } from "yeap/app";
+import { createContext, Reactor, ReadOnlyReactor } from "yeap/app";
 
 interface RouterContextInteface {
   location: Reactor<string>
@@ -9,4 +9,9 @@ interface RouterContextInteface {
   forward(): void
 }
 
+interface RouteContextInteface {
+  params: ReadOnlyReactor<Record<string, string>>
+}
+
 export const RouterContext = createContext<RouterContextInteface | null>(null)
+export const RouteContext = createContext<RouteContextInteface | null>(null)
