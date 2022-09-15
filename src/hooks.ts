@@ -23,3 +23,22 @@ export function useLocation(): ReadOnlyReactor<string> {
   if (v === null) throw new Error("useLocation is only ever to be used as the child of a <Router>. Please wrap your component in a <Router>.")
   return v.location
 }
+
+export function useUrlSearchParams(): ReadOnlyReactor<Map<string, string>> {
+  const v = useContext(RouterContext)
+  if (v === null) throw new Error("useUrlSearchParams is only ever to be used as the child of a <Router>. Please wrap your component in a <Router>.")
+
+  return v.location.compute<Map<string, string>>((location) => {
+    const params = (location.split("?")[1] ?? "").split("&")
+    const searchParams = new Map()
+
+    for (const param of params) {
+      if (param.length === 0) continue
+
+      const [key, value] = param.split("=")
+      searchParams.set(key, value)
+    }
+
+    return searchParams
+  })
+}

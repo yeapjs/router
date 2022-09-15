@@ -2,6 +2,7 @@ import { Reactor, useContext } from "yeap/app"
 import { h } from "yeap/web"
 
 import { RouterContext } from "./context"
+import { normalize } from "./helpers"
 
 interface LinkTo {
   id?: string
@@ -32,7 +33,7 @@ export function Link(
 ) {
   const history = useContext(RouterContext)!
 
-  let href = ""
+  let href: string
   if (typeof to === "string") href = to
   else {
     if (to.path) href = to.path
@@ -40,8 +41,10 @@ export function Link(
 
     if (to.params)
       for (const key of Object.keys(to.params))
-        href = href.replace(`:${key}`, to.params[key])
+        href = href!.replace(`:${key}`, to.params[key])
   }
+
+  href = normalize(href!)
 
   function handleClick(e: MouseEvent & { currentTarget: HTMLAnchorElement }) {
     if (native) return

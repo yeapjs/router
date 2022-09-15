@@ -41,7 +41,9 @@ describe("getParams", () => {
   test("with params", () => {
     expect(getParams("/foo/:id", "/foo/2")).toEqual({ id: "2" })
     expect(getParams("/foo/:id", "/bar/2")).toEqual({})
+    expect(getParams("/foo/:id", "/bar/2?s")).toEqual({})
     expect(getParams("/foo//:slg//:id", "//foo/bar/2")).toEqual({ slg: "bar", id: "2" })
     expect(getParams("/foo/:slg-:id", "/foo//bar-2/")).toEqual({ slg: "bar", id: "2" })
+    expect(getParams("/foo/:slg-:id", "/foo/bar-2//?test")).toEqual({ slg: "bar", id: "2" })
   })
 })
