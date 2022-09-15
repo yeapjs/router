@@ -12,20 +12,19 @@ import { h } from "yeap/web"
 import { GroupRoutesContext, RouteContext, RouterContext } from "./context"
 import { getParams, testRoute } from "./helpers"
 
-interface RouteProps<T> {
-  once?: boolean
-  id?: string
-  path: string
-  component: Component<T>
-}
+export type RouteProps<T> = ComponentProps<
+  T & {
+    once?: boolean
+    id?: string
+    path: string
+    component: Component<T>
+  }
+>
 
-export function Route<T>({
-  path,
-  component,
-  once,
-  id,
-  ...props
-}: ComponentProps<T & RouteProps<T>>) {
+export function Route<T>(
+  { path, component, once, id, ...props }: RouteProps<T>,
+  children: any
+) {
   const { parentPath } = useContext(GroupRoutesContext)
   const context = useContext(RouterContext)
   const params = createReactor<Record<string, string>>({})
@@ -51,7 +50,9 @@ export function Route<T>({
 
   return (
     <RouteContext.Provider value={{ params: params.reader() }}>
-      <Dynamic component={component as any} {...props} when={show} />
+      <Dynamic component={component as any} {...props} when={show}>
+        {children}
+      </Dynamic>
     </RouteContext.Provider>
   )
 }

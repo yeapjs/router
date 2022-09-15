@@ -1,14 +1,24 @@
 import { h } from "yeap/web"
 import { GroupRoutesContext } from "./context"
+import { Route, RouteProps } from "./Route"
 
-interface GroupRoutesProps {
-  path: string
-}
+type Optional<T, K extends keyof T> = Partial<Pick<T, K>> & Omit<T, K>
 
-export function GroupRoutes({ path }: GroupRoutesProps, children: any) {
+type GroupRoutesProps<T> = Optional<RouteProps<T>, "component">
+
+export function GroupRoutes<T>(
+  { path, component, ...props }: GroupRoutesProps<T>,
+  children: any
+) {
   return (
     <GroupRoutesContext.Provider value={{ parentPath: path }}>
-      {children}
+      {component ? (
+        <Route path="/" component={component} {...(props as any)}>
+          {children}
+        </Route>
+      ) : (
+        children
+      )}
     </GroupRoutesContext.Provider>
   )
 }
