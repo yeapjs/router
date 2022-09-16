@@ -1,10 +1,7 @@
 import { h } from "yeap/web"
+import { GroupRoutesProps } from "../types/app"
 import { GroupRoutesContext } from "./context"
-import { Route, RouteProps } from "./Route"
-
-type Optional<T, K extends keyof T> = Partial<Pick<T, K>> & Omit<T, K>
-
-type GroupRoutesProps<T> = Optional<RouteProps<T>, "component">
+import { Route } from "./Route"
 
 export function GroupRoutes<T>(
   { path, component, ...props }: GroupRoutesProps<T>,

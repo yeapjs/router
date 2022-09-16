@@ -1,9 +1,6 @@
 import { createReactor } from "yeap/app"
+import { MemoryRouterProps } from "../types/app"
 import { RouterContext } from "./context"
-
-interface MemoryRouterProps {
-  initialLocation?: string
-}
 
 export function MemoryRouter(
   { initialLocation = "/" }: MemoryRouterProps,

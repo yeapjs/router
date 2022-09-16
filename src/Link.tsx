@@ -1,23 +1,9 @@
-import { Reactor, useContext } from "yeap/app"
+import { useContext } from "yeap/app"
 import { h } from "yeap/web"
+import { LinkProps } from "../types/app"
 
 import { RouterContext } from "./context"
 import { normalize } from "./helpers"
-
-interface LinkTo {
-  id?: string
-  path?: string
-  params?: Record<string, string>
-}
-
-interface LinkProps extends JSX.ReactivableHTMLAttributes<HTMLAnchorElement> {
-  back?: boolean
-  forward?: boolean
-  replace?: boolean
-  native?: boolean
-  to?: string | LinkTo
-  ref: Reactor<HTMLAnchorElement>
-}
 
 export function Link(
   {
