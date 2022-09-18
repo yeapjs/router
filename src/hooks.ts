@@ -36,7 +36,7 @@ export function useUrlSearchParams(): ReadOnlyReactor<Map<string, string>> {
       if (param.length === 0) continue
 
       const [key, value] = param.split("=")
-      searchParams.set(key, value)
+      searchParams.set(decodeURI(key), decodeURI(value ?? ""))
     }
 
     return searchParams

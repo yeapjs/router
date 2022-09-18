@@ -33,8 +33,8 @@ export function Route<T>(
 
   const show = createComputed(() => {
     if (once && context.alreadyCalled(true)) return false
-    if (testRoute(parentPath + path, context.location())) {
-      params(getParams(parentPath + path, context.location()))
+    if (testRoute(parentPath + path, decodeURI(context.location()))) {
+      params(getParams(parentPath + path, decodeURI(context.location())))
 
       return true
     }
