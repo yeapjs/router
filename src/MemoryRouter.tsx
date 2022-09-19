@@ -1,4 +1,6 @@
 import { createReactor } from "yeap/app"
+import { h } from "yeap/web"
+
 import { MemoryRouterProps } from "../types/app"
 import { RouterContext } from "./context"
 

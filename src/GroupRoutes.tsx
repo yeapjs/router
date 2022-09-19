@@ -1,7 +1,8 @@
 import { h } from "yeap/web"
-import { GroupRoutesProps } from "../types/app"
+
 import { GroupRoutesContext } from "./context"
 import { Route } from "./Route"
+import { GroupRoutesProps } from "../types/app"
 
 export function GroupRoutes<T>(
   { path, component, ...props }: GroupRoutesProps<T>,

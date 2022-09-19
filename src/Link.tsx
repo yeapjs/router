@@ -1,9 +1,9 @@
 import { useContext } from "yeap/app"
 import { h } from "yeap/web"
-import { LinkProps } from "../types/app"
 
 import { RouterContext } from "./context"
 import { normalize } from "./helpers"
+import { LinkProps } from "../types/app"
 
 export function Link(
   {

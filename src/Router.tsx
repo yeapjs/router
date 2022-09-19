@@ -1,4 +1,6 @@
 import { createReactor } from "yeap/app"
+import { h } from "yeap/web"
+
 import { RouterContext } from "./context"
 
 export function Router(_: any, children: any) {

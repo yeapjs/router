@@ -1,6 +1,4 @@
 import {
-  Component,
-  ComponentProps,
   createComputed,
   createPersistor,
   createReactor,
@@ -8,10 +6,10 @@ import {
 } from "yeap/app"
 import { Dynamic } from "yeap/components"
 import { h } from "yeap/web"
-import { RouteProps } from "../types/app"
 
 import { GroupRoutesContext, RouteContext, RouterContext } from "./context"
 import { getParams, testRoute } from "./helpers"
+import { RouteProps } from "../types/app"
 
 export function Route<T>(
   { path, component, once, id, ...props }: RouteProps<T>,
