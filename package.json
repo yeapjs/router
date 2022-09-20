@@ -5,13 +5,6 @@
   "main": "./lib/app.js",
   "types": "./types/app.d.ts",
   "type": "module",
-  "typesVersions": {
-    ">=3.1": {
-      "*": [
-        "types/*"
-      ]
-    }
-  },
   "files": [
     "lib/**/*",
     "types/**/*",
