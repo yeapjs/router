@@ -1,5 +1,15 @@
 import { ReadOnlyReactor, useContext } from "yeap/app";
+import { LinkTo } from "../types/app";
 import { HistoryGesture, RouteContext, RouterContext } from "./context";
+import { resolvePath } from "./helpers";
+
+export function redirect(to: LinkTo | string) {
+  const v = useContext(RouterContext)!
+
+  if (v === null) throw new Error("useLocation is only ever to be used as the child of a <Router>. Please wrap your component in a <Router>.")
+
+  v.push(resolvePath(to, v.ids))
+}
 
 export function useUrlParams() {
   const v = useContext(RouteContext)

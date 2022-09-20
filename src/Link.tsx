@@ -1,8 +1,8 @@
-import { useContext } from "yeap/app"
+import { createPersistentCallback, useContext } from "yeap/app"
 import { h } from "yeap/web"
 
 import { RouterContext } from "./context"
-import { normalize } from "./helpers"
+import { resolvePath } from "./helpers"
 import { LinkProps } from "../types/app"
 
 export function Link(
@@ -19,32 +19,23 @@ export function Link(
 ) {
   const history = useContext(RouterContext)!
 
-  let href: string
-  if (typeof to === "string") href = to
-  else {
-    if (to.path) href = to.path
-    else if (to.id) href = history.ids[to.id]
+  const href = resolvePath(to, history.ids)
 
-    if (to.params)
-      for (const key of Object.keys(to.params))
-        href = href!.replace(`:${key}`, to.params[key])
-  }
+  const handleClick = createPersistentCallback(
+    (e: MouseEvent & { currentTarget: HTMLAnchorElement }) => {
+      if (native) return
 
-  href = normalize(href!)
+      e.preventDefault()
 
-  function handleClick(e: MouseEvent & { currentTarget: HTMLAnchorElement }) {
-    if (native) return
-
-    e.preventDefault()
-
-    if (rest.onClick) {
-      if (typeof rest.onClick === "function") rest.onClick(e)
-      else rest.onClick[0](rest.onClick.slice(1))
+      if (rest.onClick) {
+        if (typeof rest.onClick === "function") rest.onClick(e)
+        else rest.onClick[0](rest.onClick.slice(1))
+      }
+      if (back) history.back()
+      else if (forward) history.forward()
+      else history[replace ? "replace" : "push"](href)
     }
-    if (back) history.back()
-    else if (forward) history.forward()
-    else history[replace ? "replace" : "push"](href)
-  }
+  )
 
   return (
     <a
