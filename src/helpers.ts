@@ -13,9 +13,11 @@ export function testRoute(route: string, url: string) {
 }
 
 export function getParams(route: string, url: string) {
-  const matcher = `^${normalize(route).replace(/(:(\w+))/g, "(?<$2>[\\w-]+)").replace(/\*/g, "(?<*>.*)")}\$`
+  const matcher = `^${normalize(route).replace(/(:(\w+))/g, "(?<$2>[\\w-]+)").replace(/\*/g, "(?<__all>.*)")}\$`
 
   const matches = normalize(url.split("?")[0]).match(matcher)?.groups ?? {}
+
+  if (matches.__all) matches["*"] = matches.__all
 
   return matches
 }
