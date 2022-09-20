@@ -8,7 +8,7 @@ import { Dynamic } from "yeap/components"
 import { h } from "yeap/web"
 
 import { GroupRoutesContext, RouteContext, RouterContext } from "./context"
-import { getParams, testRoute } from "./helpers"
+import { getParams, normalize, testRoute } from "./helpers"
 import { RouteProps } from "../types/app"
 
 export function Route<T>(
@@ -26,11 +26,15 @@ export function Route<T>(
 
   // use to be called once only (like onFirstMount)
   createPersistor(() => {
-    if (id) context.ids[id] = parentPath + path
+    if (id) context.ids[id] = normalize(parentPath + path)
   })
 
   const show = createComputed(() => {
-    if (once && context.alreadyCalled(true)) return false
+    if (
+      (["*", "/*"].includes(normalize(parentPath + path)) || once) &&
+      context.alreadyCalled(true)
+    )
+      return false
     if (testRoute(parentPath + path, decodeURI(context.location()))) {
       params(getParams(parentPath + path, decodeURI(context.location())))
 
