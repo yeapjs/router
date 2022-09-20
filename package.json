@@ -13,8 +13,8 @@
   "scripts": {
     "test": "vitest",
     "coverage": "vitest --coverage",
-    "dev": "rollup -c -w",
-    "build": "rollup -c",
+    "dev": "tsc -w",
+    "build": "tsc",
     "prepack": "npm run build"
   },
   "repository": {
