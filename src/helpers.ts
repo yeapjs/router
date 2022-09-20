@@ -7,13 +7,13 @@ export function normalize(str: string) {
 }
 
 export function testRoute(route: string, url: string) {
-  const matcher = RegExp(`^${normalize(route).replace(/(:\w+)/g, "([\\w-]+)")}\$`)
+  const matcher = RegExp(`^${normalize(route).replace(/(:\w+)/g, "([\\w-]+)").replace(/\*/g, "(.*)")}\$`)
 
   return matcher.test(normalize(url.split("?")[0]))
 }
 
 export function getParams(route: string, url: string) {
-  const matcher = `^${normalize(route).replace(/(:(\w+))/g, "(?<$2>[\\w-]+)")}\$`
+  const matcher = `^${normalize(route).replace(/(:(\w+))/g, "(?<$2>[\\w-]+)").replace(/\*/g, "(?<*>.*)")}\$`
 
   const matches = normalize(url.split("?")[0]).match(matcher)?.groups ?? {}
 
