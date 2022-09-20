@@ -1,6 +1,6 @@
 import { ReadOnlyReactor, useContext } from "yeap/app";
-import { LinkTo } from "../types/app";
-import { HistoryGesture, RouteContext, RouterContext } from "./context";
+import { HistoryGesture, LinkTo } from "../types/app";
+import { RouteContext, RouterContext } from "./context";
 import { resolvePath } from "./helpers";
 
 export function redirect(to: LinkTo | string) {

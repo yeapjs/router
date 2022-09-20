@@ -1,6 +1,12 @@
-import { Component, ComponentProps } from "yeap/app";
+import { Component, ComponentProps, ReadOnlyReactor } from "yeap/app";
 
 type Optional<T, K extends keyof T> = Partial<Pick<T, K>> & Omit<T, K>
+interface HistoryGesture {
+  push(newLocation: string): void
+  replace(newLocation: string): void
+  back(): void
+  forward(): void
+}
 interface LinkTo {
   id?: string
   path?: string
@@ -35,3 +41,14 @@ export interface MemoryRouterProps {
   initialLocation?: string
 }
 export const MemoryRouter: Component<MemoryRouterProps>
+
+// HOOKS
+export function redirect(to: LinkTo | string): void
+
+export function useUrlParams(): ReadOnlyReactor<Record<string, string>>
+
+export function useHistory(): HistoryGesture
+
+export function useLocation(): ReadOnlyReactor<string>
+
+export function useUrlSearchParams(): ReadOnlyReactor<Map<string, string>>
