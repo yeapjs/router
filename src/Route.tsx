@@ -30,12 +30,13 @@ export function Route<T>(
   })
 
   const show = createComputed(() => {
-    if (
-      (["*", "/*"].includes(normalize(parentPath + path)) || once) &&
-      context.alreadyCalled(true)
-    )
+    const called = context.alreadyCalled()
+
+    if ((["*", "/*"].includes(normalize(parentPath + path)) || once) && called)
       return false
+
     if (testRoute(parentPath + path, decodeURI(context.location()))) {
+      context.alreadyCalled(true)
       params(getParams(parentPath + path, decodeURI(context.location())))
 
       return true
